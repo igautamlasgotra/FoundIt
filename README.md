@@ -7,7 +7,7 @@ FoundIt is a lost-and-found platform for **Shri Mata Vaishno Devi University (SM
 - **Stack:** MERN — MongoDB (Atlas), Express, React (Vite), Node.js
 - **Hosting:** Vercel (frontend + serverless API) + MongoDB Atlas — all on **free tiers**
 - **AI matching:** DB pre-filter + Google **Gemini** (`gemini-2.5-flash`) ranking
-- **Author / owner:** **Aniket Kundal**
+- **Author / owner:** **Gautam Lasgotra**
 
 ---
 
@@ -119,4 +119,4 @@ JWT + bcrypt auth, role-based middleware, Zod validation on every write, central
 
 ## License
 
-MIT © Aniket Kundal
+MIT © Gautam Lasgotra
