@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "FoundIt — Smart Campus Lost & Found for SMVDU. AI-matched, mediated handover. MERN on free tiers.",
-  "author": "Aniket Kundal",
+  "author": "Gautam Lasgotra",
   "license": "MIT",
   "type": "module",
   "engines": {

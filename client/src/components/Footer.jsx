@@ -49,7 +49,7 @@ export default function Footer() {
         </div>
 
         <div className="footer__bottom">
-          <span>© 2026 FoundIt · Built for SMVDU by Aniket Kundal</span>
+          <span>© 2026 FoundIt · Built for SMVDU by Gautam Lasgotra</span>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
             <ShieldCheckIcon size={15} /> Restricted to the SMVDU community
           </span>
