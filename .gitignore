@@ -29,4 +29,8 @@ Thumbs.db
 overlap.png
 client/public/favicon-source.png
 
+# Local tooling & planning (not part of the project)
+.claude/
+FoundIt-project-brief.md
+
 .vercel
