@@ -28,3 +28,5 @@ Thumbs.db
 # Local-only assets / scratch
 overlap.png
 client/public/favicon-source.png
+
+.vercel
