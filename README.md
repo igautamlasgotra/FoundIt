@@ -14,7 +14,7 @@ FoundIt is a lost-and-found platform for **Shri Mata Vaishno Devi University (SM
 ## Features
 
 - **SMVDU-gated accounts** — registration restricted to configured email domains; JWT auth; `user` and `admin` roles.
-- **Report lost/found** — multi-step form, campus-aware locations (with a custom "Other"), optional photo (Cloudinary), and a private ownership-verification question.
+- **Report lost/found** — multi-step form, campus-aware locations and categories (each with a custom "Other" option), optional photo (Cloudinary), and a private ownership-verification question. Mobile-optimized with a collapsible menu and touch-friendly controls.
 - **Browse** — searchable, filterable feed (type, category, location) with pagination.
 - **AI matching** — every new report is pre-filtered in the DB then ranked by Gemini, producing a **confidence score + human-readable reason**. Both parties are notified (in-app + email).
 - **Claims & handover** — claimants answer the private verifying question; the finder/admin approves or rejects; the status lifecycle runs `open → potential_match → claim_pending → claim_approved → collected/closed`.

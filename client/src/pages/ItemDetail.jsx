@@ -213,6 +213,13 @@ export default function ItemDetail() {
             </div>
           )}
 
+          {isOwner && (
+            <div className="info-note" style={{ marginTop: 'var(--sp-4)' }}>
+              <LockIcon size={16} />
+              <span>This is your report — you can't claim your own item. Any claims appear below for you to review.</span>
+            </div>
+          )}
+
           {!isOwner && myClaim && (
             <div
               className={`form-alert ${
