@@ -1149,11 +1149,23 @@ textarea.field__input {
 /* ── Tables (admin) ── */
 .table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .table {
   width: 100%;
   border-collapse: collapse;
   font-size: var(--fs-sm);
+}
+/* On narrow screens, keep rows on one line and let the wrapper scroll
+   horizontally instead of squishing/wrapping columns. */
+@media (max-width: 640px) {
+  .table {
+    min-width: 34rem;
+  }
+  .table th,
+  .table td {
+    white-space: nowrap;
+  }
 }
 .table th,
 .table td {
