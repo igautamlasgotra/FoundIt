@@ -1340,4 +1340,45 @@ textarea.field__input {
   .hero__badge {
     right: 0;
   }
+
+  /* Tighter nav padding so logo + theme + burger never crowd on small phones */
+  .nav__inner {
+    padding: var(--sp-3) var(--sp-4);
+  }
+
+  /* Comfortable tap targets (≥44px) on touch screens */
+  .btn {
+    min-height: 44px;
+  }
+  .icon-btn,
+  .bell {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+  .field__input,
+  select.field__input {
+    min-height: 44px;
+  }
+
+  /* Stack the hero call-to-action buttons full-width */
+  .hero__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero__cta .btn {
+    width: 100%;
+  }
+
+  /* Match suggestion: let the thumbnail shrink a touch on narrow screens */
+  .match-card__media {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+/* Very small phones: drop the "· SMVDU" subtext to save the navbar room */
+@media (max-width: 380px) {
+  .brand__sub {
+    display: none;
+  }
 }

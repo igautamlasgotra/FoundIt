@@ -33,25 +33,16 @@ export default function Admin() {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(null);
 
-  const loadAll = useCallback(async () => {
-    try {
-      const [s, c, r, i, d, a] = await Promise.all([
-        api('/admin/stats'),
-        api('/admin/claims'),
-        api('/admin/reset-requests?status=pending'),
-        api('/admin/items'),
-        api('/admin/desk-items'),
-        api('/admin/audit'),
-      ]);
-      setStats(s);
-      setClaims(c.claims);
-      setResets(r.requests);
-      setItems(i.items);
-      setDesk(d.items);
-      setAudit(a.entries);
-    } catch (err) {
-      setError(err.message);
-    }
+  const loadAll = useCallback(() => {
+    setError('');
+    // Fetch each section independently so the stat numbers appear instantly
+    // instead of waiting for the slowest section to finish.
+    api('/admin/stats').then(setStats).catch((e) => setError(e.message));
+    api('/admin/claims').then((r) => setClaims(r.claims)).catch(() => {});
+    api('/admin/reset-requests?status=pending').then((r) => setResets(r.requests)).catch(() => {});
+    api('/admin/items').then((r) => setItems(r.items)).catch(() => {});
+    api('/admin/desk-items').then((r) => setDesk(r.items)).catch(() => {});
+    api('/admin/audit').then((r) => setAudit(r.entries)).catch(() => {});
   }, []);
 
   useEffect(() => {
