@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { useConfig } from '../context/ConfigContext.jsx';
@@ -20,6 +20,7 @@ export default function ReportItem() {
     type: 'lost',
     title: '',
     category: '',
+    categoryOther: '',
     location: '',
     locationOther: '',
     dateLostOrFound: today(),
@@ -33,6 +34,17 @@ export default function ReportItem() {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  // Guard against accidental submit: when the final step appears, the Submit
+  // button briefly renders where "Next" was tapped — on touch a "ghost tap"
+  // can land on it. Disable submit for a moment after arriving on the step.
+  const [canSubmit, setCanSubmit] = useState(false);
+
+  useEffect(() => {
+    if (step !== STEPS.length - 1) return undefined;
+    setCanSubmit(false);
+    const t = setTimeout(() => setCanSubmit(true), 600);
+    return () => clearTimeout(t);
+  }, [step]);
 
   const set = (key) => (val) => setForm((f) => ({ ...f, [key]: val }));
   const setEvent = (key) => (e) => set(key)(e.target.value);
@@ -43,6 +55,7 @@ export default function ReportItem() {
       return (
         form.title.trim().length >= 3 &&
         form.category &&
+        (form.category !== 'Other' || form.categoryOther.trim().length > 0) &&
         form.location &&
         (form.location !== 'Other' || form.locationOther.trim().length > 0) &&
         form.dateLostOrFound
@@ -59,6 +72,8 @@ export default function ReportItem() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Block submits until the user has settled on the final step (anti ghost-tap).
+    if (!canSubmit || submitting) return;
     setError('');
     setFieldErrors({});
     setSubmitting(true);
@@ -78,7 +93,14 @@ export default function ReportItem() {
         err.details.forEach((d) => d.field && (map[d.field] = d.message));
         setFieldErrors(map);
         // Jump back to the step containing the first error.
-        if (map.title || map.category || map.location || map.locationOther || map.dateLostOrFound)
+        if (
+          map.title ||
+          map.category ||
+          map.categoryOther ||
+          map.location ||
+          map.locationOther ||
+          map.dateLostOrFound
+        )
           setStep(0);
         else if (map.description) setStep(1);
         else setStep(2);
@@ -156,6 +178,17 @@ export default function ReportItem() {
                   <LocationSelect value={form.location} onChange={set('location')} />
                 </label>
               </div>
+
+              {form.category === 'Other' && (
+                <Field
+                  id="categoryOther"
+                  label="Type the category"
+                  value={form.categoryOther}
+                  onChange={set('categoryOther')}
+                  error={fieldErrors.categoryOther}
+                  placeholder="e.g. Umbrella, Calculator, Earphones"
+                />
+              )}
 
               {form.location === 'Other' && (
                 <Field
@@ -270,7 +303,7 @@ export default function ReportItem() {
                 Next →
               </button>
             ) : (
-              <button type="submit" className="btn" disabled={submitting}>
+              <button type="submit" className="btn" disabled={submitting || !canSubmit}>
                 {submitting ? 'Submitting…' : 'Submit report'}
               </button>
             )}

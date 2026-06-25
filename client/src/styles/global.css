@@ -261,6 +261,14 @@ img {
   align-items: center;
   gap: var(--sp-3);
 }
+.nav__auth-desktop {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.nav__menu-auth {
+  display: none;
+}
 .icon-btn {
   display: inline-grid;
   place-items: center;
@@ -1278,13 +1286,26 @@ textarea.field__input {
     right: 0;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--sp-2);
+    gap: var(--sp-3);
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    padding: var(--sp-4) var(--sp-6);
+    box-shadow: var(--shadow);
+    padding: var(--sp-4) var(--sp-6) var(--sp-6);
   }
   .nav__burger {
     display: inline-grid;
+  }
+  /* On mobile, auth moves into the dropdown; hide the desktop bar copy. */
+  .nav__auth-desktop {
+    display: none;
+  }
+  .nav__menu-auth {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    margin-top: var(--sp-2);
+    padding-top: var(--sp-3);
+    border-top: 1px solid var(--border);
   }
   .features {
     grid-template-columns: 1fr;

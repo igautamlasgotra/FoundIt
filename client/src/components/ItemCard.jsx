@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { StatusBadge, TypeBadge, CategoryChip } from './Badge.jsx';
-import { formatDate, locationLabel } from '../lib/display.js';
+import { formatDate, locationLabel, categoryLabel } from '../lib/display.js';
 import { BoxIcon, MapPinIcon } from './Icons.jsx';
 
 // Browse-grid card: photo (or icon placeholder), title, chips, meta.
@@ -22,7 +22,7 @@ export default function ItemCard({ item }) {
 
       <div className="item-card__body">
         <div className="item-card__row">
-          <CategoryChip category={item.category} />
+          <CategoryChip category={categoryLabel(item)} />
           <StatusBadge status={item.status} />
         </div>
         <h3 className="item-card__title">{item.title}</h3>
