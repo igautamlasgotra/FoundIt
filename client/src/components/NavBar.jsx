@@ -20,6 +20,24 @@ export default function NavBar() {
     navigate('/');
   };
 
+  // Auth actions, rendered both in the desktop bar and (full-width) in the
+  // mobile dropdown. `block` makes them full-width buttons for the menu.
+  const authActions = (block = false) =>
+    user ? (
+      <button className={`btn btn--ghost ${block ? 'btn--block' : ''}`} onClick={handleLogout}>
+        Log out
+      </button>
+    ) : (
+      <>
+        <Link className={`btn btn--ghost ${block ? 'btn--block' : ''}`} to="/login" onClick={close}>
+          Log in
+        </Link>
+        <Link className={`btn ${block ? 'btn--block' : ''}`} to="/signup" onClick={close}>
+          Get started
+        </Link>
+      </>
+    );
+
   return (
     <nav className="nav" aria-label="Main">
       <div className="nav__inner">
@@ -28,37 +46,24 @@ export default function NavBar() {
         <div className={`nav__links ${open ? 'is-open' : ''}`}>
           {user ? (
             <>
-              <Link className="nav__link" to="/home" onClick={close}>
-                Browse
-              </Link>
-              <Link className="nav__link" to="/report" onClick={close}>
-                Report
-              </Link>
-              {isAdmin && (
-                <Link className="nav__link" to="/admin" onClick={close}>
-                  Admin
-                </Link>
-              )}
-              <Link className="nav__link" to="/profile" onClick={close}>
-                Profile
+              <Link className="nav__link" to="/home" onClick={close}>Browse</Link>
+              <Link className="nav__link" to="/report" onClick={close}>Report</Link>
+              {isAdmin && <Link className="nav__link" to="/admin" onClick={close}>Admin</Link>}
+              <Link className="nav__link" to="/profile" onClick={close}>Profile</Link>
+              <Link className="nav__link" to="/notifications" onClick={close}>
+                Notifications{unread > 0 ? ` (${unread})` : ''}
               </Link>
             </>
           ) : (
             <>
-              <Link className="nav__link" to="/" onClick={close}>
-                Home
-              </Link>
-              <Link className="nav__link" to="/login" onClick={close}>
-                Browse
-              </Link>
-              <a className="nav__link" href="/#how" onClick={close}>
-                How it works
-              </a>
-              <a className="nav__link" href="/#contact" onClick={close}>
-                Contact
-              </a>
+              <Link className="nav__link" to="/" onClick={close}>Home</Link>
+              <Link className="nav__link" to="/login" onClick={close}>Browse</Link>
+              <a className="nav__link" href="/#how" onClick={close}>How it works</a>
+              <a className="nav__link" href="/#contact" onClick={close}>Contact</a>
             </>
           )}
+          {/* Auth actions inside the mobile dropdown only */}
+          <div className="nav__menu-auth">{authActions(true)}</div>
         </div>
 
         <div className="nav__right">
@@ -70,26 +75,15 @@ export default function NavBar() {
             {theme === 'dark' ? <SunIcon size={18} /> : <MoonIcon size={18} />}
           </button>
 
-          {user ? (
-            <>
-              <Link className="bell" to="/notifications" aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`}>
-                <BellIcon size={18} />
-                {unread > 0 && <span className="bell__badge">{unread > 9 ? '9+' : unread}</span>}
-              </Link>
-              <button className="btn btn--ghost" onClick={handleLogout}>
-                Log out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link className="nav__link" to="/login">
-                Log in
-              </Link>
-              <Link className="btn" to="/signup">
-                Get started
-              </Link>
-            </>
+          {user && (
+            <Link className="bell" to="/notifications" aria-label={`Notifications${unread ? `, ${unread} unread` : ''}`}>
+              <BellIcon size={18} />
+              {unread > 0 && <span className="bell__badge">{unread > 9 ? '9+' : unread}</span>}
+            </Link>
           )}
+
+          {/* Auth actions in the desktop bar only */}
+          <span className="nav__auth-desktop">{authActions(false)}</span>
 
           <button
             className="icon-btn nav__burger"

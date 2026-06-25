@@ -24,6 +24,7 @@ const baseItemShape = {
     .min(10, 'Description must be at least 10 characters')
     .max(2000),
   category: inList(CATEGORIES, 'category'),
+  categoryOther: z.string().trim().max(60).optional().default(''),
   location: inList(LOCATIONS, 'location'),
   locationOther: z.string().trim().max(120).optional().default(''),
   // Accept an ISO date string or yyyy-mm-dd; coerce to Date.
@@ -61,6 +62,14 @@ const verificationRule = (data, ctx) => {
       message: 'Please type where it was lost/found',
     });
   }
+  // When the category is "Other", a custom category is required.
+  if (data.category === 'Other' && !data.categoryOther?.trim()) {
+    ctx.addIssue({
+      path: ['categoryOther'],
+      code: z.ZodIssueCode.custom,
+      message: 'Please type the item category',
+    });
+  }
 };
 
 export const createItemSchema = z.object(baseItemShape).superRefine(verificationRule);
@@ -70,6 +79,7 @@ export const updateItemSchema = z
     title: baseItemShape.title.optional(),
     description: baseItemShape.description.optional(),
     category: baseItemShape.category.optional(),
+    categoryOther: baseItemShape.categoryOther,
     location: baseItemShape.location.optional(),
     locationOther: baseItemShape.locationOther,
     dateLostOrFound: baseItemShape.dateLostOrFound.optional(),
@@ -90,6 +100,7 @@ export const createItem = asyncHandler(async (req, res) => {
     title: data.title,
     description: data.description,
     category: data.category,
+    categoryOther: data.category === 'Other' ? data.categoryOther : '',
     location: data.location,
     locationOther: data.location === 'Other' ? data.locationOther : '',
     dateLostOrFound: data.dateLostOrFound,
@@ -240,6 +251,10 @@ export const updateItem = asyncHandler(async (req, res) => {
   // Keep locationOther consistent with the (possibly updated) location.
   if (data.location !== undefined || data.locationOther !== undefined) {
     item.locationOther = item.location === 'Other' ? data.locationOther || '' : '';
+  }
+  // Keep categoryOther consistent with the (possibly updated) category.
+  if (data.category !== undefined || data.categoryOther !== undefined) {
+    item.categoryOther = item.category === 'Other' ? data.categoryOther || '' : '';
   }
   if (data.photoUrl !== undefined) item.photoUrl = data.photoUrl || '';
   if (data.heldBy !== undefined && item.type === 'found') item.heldBy = data.heldBy;

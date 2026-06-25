@@ -7,6 +7,7 @@ import {
   formatDate,
   typeLabel,
   locationLabel,
+  categoryLabel,
   phoneLinks,
   formatPhone,
   whatsappMessage,
@@ -146,7 +147,7 @@ export default function ItemDetail() {
           <h1 style={{ fontSize: 'var(--fs-h2)', marginBottom: 'var(--sp-3)' }}>{item.title}</h1>
 
           <div className="detail__meta">
-            <CategoryChip category={item.category} />
+            <CategoryChip category={categoryLabel(item)} />
             <span className="meta-item">
               <MapPinIcon size={15} /> {locationLabel(item)}
             </span>

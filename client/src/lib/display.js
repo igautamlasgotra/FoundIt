@@ -27,6 +27,12 @@ export function locationLabel(item) {
   return item.location;
 }
 
+// Display label for an item's category — uses the custom text for "Other".
+export function categoryLabel(item) {
+  if (item.category === 'Other' && item.categoryOther) return item.categoryOther;
+  return item.category;
+}
+
 // Reduce any stored phone to its 10 significant digits.
 function tenDigits(phone) {
   const d = String(phone || '').replace(/\D/g, '');

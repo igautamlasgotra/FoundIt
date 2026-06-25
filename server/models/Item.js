@@ -16,6 +16,8 @@ const itemSchema = new Schema(
     title: { type: String, required: true, trim: true, maxlength: 120 },
     description: { type: String, required: true, trim: true, maxlength: 2000 },
     category: { type: String, enum: CATEGORIES, required: true, index: true },
+    // Free-text category used when category === 'Other'.
+    categoryOther: { type: String, trim: true, maxlength: 60, default: '' },
     location: { type: String, enum: LOCATIONS, required: true, index: true },
     // Free-text place used when location === 'Other' (we can't list every spot).
     locationOther: { type: String, trim: true, maxlength: 120, default: '' },
@@ -70,6 +72,7 @@ itemSchema.methods.toPublic = function toPublic() {
     title: this.title,
     description: this.description,
     category: this.category,
+    categoryOther: this.categoryOther,
     location: this.location,
     locationOther: this.locationOther,
     dateLostOrFound: this.dateLostOrFound,
